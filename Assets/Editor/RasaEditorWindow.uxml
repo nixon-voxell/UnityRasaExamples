@@ -1,0 +1,14 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="RasaEditor.uss" />
+    <uie:Toolbar style="background-color: rgb(60, 60, 60);" />
+    <Voxell.UI.SplitView fixed-pane-initial-dimension="150">
+        <ui:VisualElement name="left-panel" style="min-width: 150px; min-height: auto;">
+            <ui:Label text="Inspector" display-tooltip-when-elided="true" focusable="false" name="inspector-label" style="padding-top: 2px; padding-right: 0; padding-left: 4px; background-color: rgb(37, 37, 37);" />
+            <Voxell.UI.InspectorView />
+        </ui:VisualElement>
+        <ui:VisualElement name="right-panel">
+            <ui:Label text="Flow Graph" display-tooltip-when-elided="true" name="graphview-label" style="background-color: rgb(37, 37, 37); padding-left: 4px; padding-right: 0; padding-top: 2px;" />
+            <Voxell.UI.RasaGraphView focusable="true" style="flex-grow: 1; min-height: auto;" />
+        </ui:VisualElement>
+    </Voxell.UI.SplitView>
+</ui:UXML>
