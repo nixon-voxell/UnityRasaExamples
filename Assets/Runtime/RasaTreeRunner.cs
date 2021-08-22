@@ -23,14 +23,14 @@ namespace Voxell.Rasa
 {
   public class RasaTreeRunner : MonoBehaviour
   {
-    private RasaTree tree;
+    private RasaTree _tree;
 
     void Start()
     {}
 
     void Update()
     {
-      tree.Update();
+      _tree.Update();
     }
   }
 }

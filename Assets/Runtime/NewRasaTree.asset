@@ -1,39 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-7455796509493904673
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f47c49331a3a42409f7cb2536c0a5a1, type: 3}
-  m_Name: SequencerNode
-  m_EditorClassIdentifier: 
-  state: 0
-  started: 0
-  guid: 7bfb575cbd9d4b649a034470f2f6c398
-  position: {x: 226.6, y: 163}
-  children: []
---- !u!114 &-2609318376188321835
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f47c49331a3a42409f7cb2536c0a5a1, type: 3}
-  m_Name: SequencerNode
-  m_EditorClassIdentifier: 
-  state: 0
-  started: 0
-  guid: f9eba0e9312499b4b9f4986a080b0a9e
-  position: {x: 403.96002, y: 163.4}
-  children: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48,6 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rootNode: {fileID: 0}
   treeState: 0
-  nodes:
-  - {fileID: -7455796509493904673}
-  - {fileID: -2609318376188321835}
+  nodes: []

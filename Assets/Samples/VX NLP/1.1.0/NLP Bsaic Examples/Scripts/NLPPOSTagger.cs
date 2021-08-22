@@ -13,19 +13,19 @@ public class NLPPOSTagger : MonoBehaviour
   public string[] tokens;
   public string[] posTags;
 
-  private EnglishMaximumEntropyTokenizer tokenizer;
-  private EnglishMaximumEntropyPosTagger posTagger;
+  private EnglishMaximumEntropyTokenizer _tokenizer;
+  private EnglishMaximumEntropyPosTagger _posTagger;
 
   [Button]
   public void Tag()
   {
     // link to POS tags meanings: https://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html
-    tokenizer = new EnglishMaximumEntropyTokenizer(FileUtil.GetStreamingAssetFilePath(tokenizerModel));
-    posTagger = new EnglishMaximumEntropyPosTagger(
+    _tokenizer = new EnglishMaximumEntropyTokenizer(FileUtil.GetStreamingAssetFilePath(tokenizerModel));
+    _posTagger = new EnglishMaximumEntropyPosTagger(
       FileUtil.GetStreamingAssetFilePath(posTaggerModel),
       FileUtil.GetStreamingAssetFilePath(tagDict));
 
-    tokens = tokenizer.Tokenize(sentence);
-    posTags = posTagger.Tag(tokens);
+    tokens = _tokenizer.Tokenize(sentence);
+    posTags = _posTagger.Tag(tokens);
   }
 }

@@ -22,23 +22,25 @@ using UnityEngine.UIElements;
 using UnityEditor;
 using Voxell.UI;
 
-namespace Voxell.Rasa
+namespace Voxell.Rasa.UI
 {
   public class RasaEditorWindow : EditorWindow
   {
-    public string selectedGuid;
-    [SerializeField] private RasaTree rasaTree;
-    private RasaGraphView graphView;
-    private InspectorView inspectorView;
+    [SerializeField] public string selectedGuid;
+    [SerializeField] public RasaTree rasaTree;
+
+    private RasaGraphView _graphView;
+    private InspectorView _inspectorView;
 
     public void Initialize(string guid, RasaTree rasaTree)
     {
       this.selectedGuid = guid;
       this.rasaTree = rasaTree;
-      graphView.PopulateView(rasaTree);
+      _graphView.Initialize(rasaTree, this);
+      _graphView.PopulateView();
     }
 
-    public void CreateGUI()
+    void CreateGUI()
     {
       // Each editor window contains a root VisualElement object
       VisualElement root = rootVisualElement;
@@ -52,16 +54,22 @@ namespace Voxell.Rasa
       StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Editor/RasaEditorWindow.uss");
       root.styleSheets.Add(styleSheet);
 
-      graphView = root.Q<RasaGraphView>();
-      inspectorView = root.Q<InspectorView>();
+      _graphView = root.Q<RasaGraphView>();
+      _inspectorView = root.Q<InspectorView>();
 
-      if (rasaTree != null) graphView.PopulateView(rasaTree);
+      if (rasaTree != null) _graphView.Initialize(rasaTree, this);
+      _graphView.PopulateView();
+      _graphView.OnNodeSelected = (nodeView) => _inspectorView.UpdateSelection(nodeView);
+      _graphView.OnNodeUnSelected = _inspectorView.ClearSelection;
     }
+
+    void OnGUI()
+    {}
 
     public override void SaveChanges()
     {
       base.SaveChanges();
-      AssetDatabase.SaveAssets();
+      Debug.Log("Save");
     }
   }
 }

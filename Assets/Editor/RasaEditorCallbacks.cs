@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEditor;
 using UnityEditor.Callbacks;
 
-namespace Voxell.Rasa
+namespace Voxell.Rasa.UI
 {
   public class RasaEditorCallbacks
   {

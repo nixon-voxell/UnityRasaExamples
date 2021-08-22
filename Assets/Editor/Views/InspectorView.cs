@@ -17,15 +17,34 @@ The Original Code is Copyright (C) 2020 Voxell Technologies.
 All rights reserved.
 */
 
-using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UIElements;
+using UnityEditor;
 
-namespace Voxell.Rasa
+namespace Voxell.UI
 {
-  public abstract class ActionNode : RasaNode {}
+  public class InspectorView : VisualElement
+  {
+    public new class UxmlFactory : UxmlFactory<InspectorView, VisualElement.UxmlTraits> {}
+    private Editor _editor;
 
-  public abstract class DecoratorNode : RasaNode
-  { public RasaNode child; }
+    public InspectorView()
+    {}
 
-  public abstract class CompositeNode: RasaNode
-  { public List<RasaNode> children = new List<RasaNode>(); }
+    public void UpdateSelection(RasaNodeView nodeView)
+    {
+      Clear();
+      Object.DestroyImmediate(_editor);
+
+      _editor = Editor.CreateEditor(nodeView.node);
+      IMGUIContainer container = new IMGUIContainer(_editor.OnInspectorGUI);
+      Add(container);
+    }
+
+    public void ClearSelection()
+    {
+      Clear();
+      Object.DestroyImmediate(_editor);
+    }
+  }
 }

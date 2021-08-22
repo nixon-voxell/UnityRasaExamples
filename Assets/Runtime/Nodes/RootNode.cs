@@ -17,15 +17,10 @@ The Original Code is Copyright (C) 2020 Voxell Technologies.
 All rights reserved.
 */
 
-using UnityEngine.UIElements;
+using UnityEngine;
 
-namespace Voxell.UI
+namespace Voxell.Rasa
 {
-  public class InspectorView : VisualElement
-  {
-    public new class UxmlFactory : UxmlFactory<InspectorView, VisualElement.UxmlTraits> {}
-
-    public InspectorView()
-    {}
-  }
+  // public class RootNode : RasaNode
+  // {}
 }

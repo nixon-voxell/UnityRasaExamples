@@ -26,12 +26,12 @@ namespace Voxell.Rasa
   public class RasaTree : ScriptableObject
   {
     public RasaNode rootNode;
-    public RasaNode.State treeState = RasaNode.State.Running;
+    public RasaState treeState = RasaState.Running;
     public List<RasaNode> nodes = new List<RasaNode>();
 
-    public RasaNode.State Update()
+    public RasaState Update()
     {
-      if (rootNode.state == RasaNode.State.Running)
+      if (rootNode.state == RasaState.Running)
         treeState = rootNode.Update();
 
       return treeState;

@@ -20,6 +20,9 @@ temp/
 /[Rr]eleases/
 /[Rr]elease/
 
+# just for this example, ignore the shadergraph package
+/Packages/com.unity.shadergraph/
+
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data

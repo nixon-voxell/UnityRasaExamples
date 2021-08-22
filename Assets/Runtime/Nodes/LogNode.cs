@@ -17,28 +17,31 @@ The Original Code is Copyright (C) 2020 Voxell Technologies.
 All rights reserved.
 */
 
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Voxell.Rasa
 {
-  public class DebugNode : ActionNode
+  public class LogNode : RasaNode
   {
     public string message;
 
-    protected override void OnStart()
+    private static List<PortInfo> inputPortInfos = new List<PortInfo>
     {
-      Debug.Log($"OnStart: {message}");
-    }
+      new PortInfo(CapacityInfo.Single, typeof(bool), "Flow", Color.red),
+      new PortInfo(CapacityInfo.Single, typeof(string), "Message", Color.green)
+    };
 
-    protected override void OnStop()
+    private static List<PortInfo> outputPortInfos = new List<PortInfo>
     {
-      Debug.Log($"OnStop: {message}");
-    }
+      new PortInfo(CapacityInfo.Multi, typeof(bool), "Flow", Color.red)
+    };
 
-    protected override State OnUpdate()
-    {
-      Debug.Log($"OnUpdate: {message}");
-      return State.Success;
-    }
+    protected override void OnStart() => Debug.Log(message);
+    protected override RasaState OnUpdate() => RasaState.Success;
+    protected override void OnStop() {}
+
+    public override List<PortInfo> CreateInputPorts() => inputPortInfos;
+    public override List<PortInfo> CreateOutputPorts() => outputPortInfos;
   }
 }
