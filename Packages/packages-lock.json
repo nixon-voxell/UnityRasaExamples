@@ -178,7 +178,7 @@
       "source": "embedded",
       "dependencies": {
         "com.unity.mathematics": "1.2.1",
-        "com.unity.collections": ""
+        "com.unity.collections": "0.15.0-preview.21"
       }
     },
     "com.unity.modules.ai": {

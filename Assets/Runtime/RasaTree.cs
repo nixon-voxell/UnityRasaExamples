@@ -17,6 +17,8 @@ The Original Code is Copyright (C) 2020 Voxell Technologies.
 All rights reserved.
 */
 
+using System;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -27,7 +29,8 @@ namespace Voxell.Rasa
   {
     public RasaNode rootNode;
     public RasaState treeState = RasaState.Running;
-    public List<RasaNode> nodes = new List<RasaNode>();
+    public List<RasaNode> rasaNodes = new List<RasaNode>();
+    public RasaNode[] cachedNodes;
 
     public RasaState Update()
     {
@@ -36,5 +39,8 @@ namespace Voxell.Rasa
 
       return treeState;
     }
+
+    public void Cache() => cachedNodes = rasaNodes.ToArray();
+    public void ClearCache() => Array.Clear(cachedNodes, 0, cachedNodes.Length);
   }
 }

@@ -73,13 +73,12 @@ namespace Voxell.UI
         graphViewChanged -= OnGraphViewChanged;
         DeleteElements(graphElements);
         graphViewChanged += OnGraphViewChanged;
-        rasaTree.nodes.ForEach(n => CreateNodeView(n));
+        rasaTree.rasaNodes.ForEach(n => CreateNodeView(n));
       }
     }
 
     private void NodeCreationRequest(NodeCreationContext c)
     {
-      Debug.Log(c.screenMousePosition);
       _mousePosition = c.screenMousePosition - _editorWindow.position.position;
       _nodeTypes = TypeCache.GetTypesDerivedFrom<RasaNode>().ToArray();
       _searcherItems = new SearcherItem[_nodeTypes.Length];
@@ -113,6 +112,46 @@ namespace Voxell.UI
       return true;
     }
 
+    private void CreateNode(RasaNode rasaNode)
+    {
+      rasaNode.Initialize(
+        ObjectNames.NicifyVariableName(rasaNode.GetType().Name),
+        GUID.Generate().ToString(),
+        contentViewContainer.WorldToLocal(_mousePosition)
+      );
+
+      Undo.RecordObject(rasaTree, "Rasa Tree (Add Node)");
+      EditorUtility.SetDirty(rasaTree);
+      rasaTree.rasaNodes.Add(rasaNode);
+      CreateNodeView(rasaNode);
+    }
+
+    private void CreateNodeView(RasaNode node)
+    {
+      RasaNodeView nodeView = new RasaNodeView(node);
+      nodeView.OnNodeSelected = OnNodeSelected;
+      nodeView.OnNodeUnSelected = OnNodeUnSelected;
+      AddElement(nodeView);
+      // select the new node so that the inspector shows the content of the node
+      ClearSelection();
+      AddToSelection(nodeView);
+    }
+
+    private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
+    {
+      Undo.RecordObject(rasaTree, "Rasa Tree (Remove Node)");
+      EditorUtility.SetDirty(rasaTree);
+      if (graphViewChange.elementsToRemove != null)
+      {
+        graphViewChange.elementsToRemove.ForEach(elem =>
+        {
+          RasaNodeView nodeView = elem as RasaNodeView;
+          if (nodeView != null) rasaTree.rasaNodes.Remove(nodeView.rasaNode);
+        });
+      }
+      return graphViewChange;
+    }
+
     public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
       => ports.ToList().Where(endPort => endPort.direction != startPort.direction && endPort.node != startPort.node).ToList();
 
@@ -128,41 +167,6 @@ namespace Voxell.UI
           index = -1
         });
       });
-    }
-
-    private void CreateNode(RasaNode node)
-    {
-      Debug.Log(ObjectNames.NicifyVariableName(node.GetType().Name));
-      node.Initialize(
-        ObjectNames.NicifyVariableName(node.GetType().Name),
-        GUID.Generate().ToString(),
-        contentViewContainer.WorldToLocal(_mousePosition)
-      );
-
-      rasaTree.nodes.Add(node);
-      CreateNodeView(node);
-    }
-
-    private void CreateNodeView(RasaNode node)
-    {
-      RasaNodeView nodeView = new RasaNodeView(node);
-      nodeView.OnNodeSelected = OnNodeSelected;
-      nodeView.OnNodeUnSelected = OnNodeUnSelected;
-      AddElement(nodeView);
-    }
-
-    private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
-    {
-      if (graphViewChange.elementsToRemove != null)
-      {
-        graphViewChange.elementsToRemove.ForEach(elem =>
-        {
-          RasaNodeView nodeView = elem as RasaNodeView;
-          if (nodeView != null)
-            rasaTree.nodes.Remove(nodeView.node);
-        });
-      }
-      return graphViewChange;
     }
   }
 }

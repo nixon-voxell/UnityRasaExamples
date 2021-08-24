@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: NewRasaTree
   m_EditorClassIdentifier: 
   rootNode: {fileID: 0}
-  treeState: 0
-  nodes: []
+  treeState: 1
+  rasaNodes: []
+  cachedNodes:
+  - {fileID: 0}

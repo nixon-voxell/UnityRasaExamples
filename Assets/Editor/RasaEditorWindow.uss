@@ -4,3 +4,11 @@ GridBackground {
     --thick-line-color: rgba(0, 255, 225, 0.15);
     --spacing: 15;
 }
+
+.rasaButton:hover {
+    opacity: 0.7;
+}
+
+.rasaButton:active {
+    opacity: 0.5;
+}

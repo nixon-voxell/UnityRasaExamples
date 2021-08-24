@@ -36,7 +36,7 @@ namespace Voxell.UI
       Clear();
       Object.DestroyImmediate(_editor);
 
-      _editor = Editor.CreateEditor(nodeView.node);
+      _editor = Editor.CreateEditor(nodeView.rasaNode);
       IMGUIContainer container = new IMGUIContainer(_editor.OnInspectorGUI);
       Add(container);
     }

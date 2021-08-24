@@ -30,21 +30,21 @@ namespace Voxell.UI
   {
     public Action<RasaNodeView> OnNodeSelected;
     public Action OnNodeUnSelected;
-    public RasaNode node;
+    public RasaNode rasaNode;
     public List<PortInfo> inputPorts;
     public List<PortInfo> outputPorts;
 
-    public RasaNodeView(RasaNode node)
+    public RasaNodeView(RasaNode rasaNode)
     {
-      this.node = node;
-      this.title = node.name;
-      this.viewDataKey = node.guid;
+      this.rasaNode = rasaNode;
+      this.title = rasaNode.name;
+      this.viewDataKey = rasaNode.guid;
 
-      style.left = node.position.x;
-      style.top = node.position.y;
+      style.left = rasaNode.position.x;
+      style.top = rasaNode.position.y;
 
-      inputPorts = node.CreateInputPorts();
-      outputPorts = node.CreateOutputPorts();
+      inputPorts = rasaNode.CreateInputPorts();
+      outputPorts = rasaNode.CreateOutputPorts();
 
       for (int ip=0; ip < inputPorts.Count; ip++)
       {
@@ -76,10 +76,10 @@ namespace Voxell.UI
     public override void SetPosition(Rect newPos)
     {
       base.SetPosition(newPos);
-      Undo.RecordObject(node, "Rasa Tree (Set Node Position)");
-      node.position.x = newPos.xMin;
-      node.position.y = newPos.yMin;
-      EditorUtility.SetDirty(node);
+      Undo.RecordObject(rasaNode, "Rasa Tree (Set Node Position)");
+      EditorUtility.SetDirty(rasaNode);
+      rasaNode.position.x = newPos.xMin;
+      rasaNode.position.y = newPos.yMin;
     }
 
     public override void OnSelected()

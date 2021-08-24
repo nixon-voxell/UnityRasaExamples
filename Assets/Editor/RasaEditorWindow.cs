@@ -31,6 +31,7 @@ namespace Voxell.Rasa.UI
 
     private RasaGraphView _graphView;
     private InspectorView _inspectorView;
+    private Button _saveButton, _showButton;
 
     public void Initialize(string guid, RasaTree rasaTree)
     {
@@ -49,13 +50,14 @@ namespace Voxell.Rasa.UI
       VisualTreeAsset visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Editor/RasaEditorWindow.uxml");
       visualTree.CloneTree(root);
 
-      // A stylesheet can be added to a VisualElement.
-      // The style will be applied to the VisualElement and all of its children.
-      StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Editor/RasaEditorWindow.uss");
-      root.styleSheets.Add(styleSheet);
-
       _graphView = root.Q<RasaGraphView>();
       _inspectorView = root.Q<InspectorView>();
+
+      _saveButton = root.Q<Button>("save-asset");
+      _saveButton.clickable = new Clickable(SaveAsset);
+
+      _showButton = root.Q<Button>("show-in-project");
+      _showButton.clickable = new Clickable(() => EditorGUIUtility.PingObject(rasaTree));
 
       if (rasaTree != null) _graphView.Initialize(rasaTree, this);
       _graphView.PopulateView();
@@ -63,13 +65,23 @@ namespace Voxell.Rasa.UI
       _graphView.OnNodeUnSelected = _inspectorView.ClearSelection;
     }
 
+    private void SaveAsset()
+    {
+      for (int n=0; n < rasaTree.cachedNodes?.Length; n++)
+      {
+        // remove all previous cached nodes
+        if (AssetDatabase.Contains(rasaTree.cachedNodes[n]))
+          AssetDatabase.RemoveObjectFromAsset(rasaTree.cachedNodes[n]);
+      }
+
+      for (int n=0; n < rasaTree.rasaNodes.Count; n++)
+        AssetDatabase.AddObjectToAsset(rasaTree.rasaNodes[n], rasaTree);
+
+      AssetDatabase.SaveAssets();
+      rasaTree.Cache();
+    }
+
     void OnGUI()
     {}
-
-    public override void SaveChanges()
-    {
-      base.SaveChanges();
-      Debug.Log("Save");
-    }
   }
 }

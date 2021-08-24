@@ -25,17 +25,16 @@ namespace Voxell.Rasa
 {
   public abstract class RasaNode : ScriptableObject
   {
+    [HideInInspector] public string guid;
+    [HideInInspector] public Vector2 position;
+    [HideInInspector] public List<string> childGuids;
     [InspectOnly] public RasaState state = RasaState.Idle;
-    public string guid;
-    public Vector2 position;
-    public List<string> childGuids;
 
     public void Initialize(string name, string guid, Vector2 position)
     {
       this.name = name;
       this.guid = guid;
       this.position = position;
-      Debug.Log(position);
     }
 
     public RasaState Update()
