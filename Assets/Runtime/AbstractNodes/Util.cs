@@ -18,28 +18,41 @@ All rights reserved.
 */
 
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Voxell.Rasa
 {
-  [CreateAssetMenu(fileName = "NewRasaTree", menuName = "Rasa/Tree")]
-  public class RasaTree : ScriptableObject
+  public enum RasaState { Idle = 0, Running = 1, Success = 2, Failure = 3 }
+  public enum CapacityInfo { Single = 0, Multi = 1 }
+
+  public struct PortInfo
   {
-    public RootNode rootNode;
-    public RasaState treeState = RasaState.Idle;
-    public List<RasaNode> rasaNodes = new List<RasaNode>();
-    public RasaNode[] cachedNodes;
+    public CapacityInfo capacityInfo;
+    public Type portType;
+    public string portName;
+    public Color color;
 
-    public RasaState Update()
+    public PortInfo(CapacityInfo capacityInfo, Type portType, string portName, Color color)
     {
-      if (rootNode.state == RasaState.Running)
-        treeState = rootNode.Update();
+      this.capacityInfo = capacityInfo;
+      this.portType = portType;
+      this.portName = portName;
+      this.color = color;
+    }
+  }
 
-      return treeState;
+  public struct Connection
+  {
+    public RasaNode rasaNode;
+    public string fieldName;
+
+    public Connection(ref RasaNode rasaNode, string fieldName)
+    {
+      this.rasaNode = rasaNode;
+      this.fieldName = fieldName;
     }
 
-    public void Cache() => cachedNodes = rasaNodes.ToArray();
-    public void ClearCache() => Array.Clear(cachedNodes, 0, cachedNodes.Length);
+    public object GetValue()
+      => rasaNode.GetType().GetField(fieldName).GetValue(rasaNode);
   }
 }

@@ -17,16 +17,21 @@ The Original Code is Copyright (C) 2020 Voxell Technologies.
 All rights reserved.
 */
 
+using System;
 using System.Collections.Generic;
 
 namespace Voxell.Rasa
 {
-  public class RootNode : ActionNode
+  public abstract class DataNode<T> : RasaNode
   {
-    protected override void OnStart() => state = RasaState.Running;
-    protected override RasaState OnUpdate() => RasaState.Success;
-    protected override void OnStop() {}
+    new public static string pathName = "Data";
+    public T data;
 
     public override List<PortInfo> CreateInputPorts() => new List<PortInfo>();
+
+    public override bool OnAddInputPort(RasaNode rasaNode, Type portType, string portName) => true;
+    public override bool OnRemoveInputPort(RasaNode rasaNode, Type portType, string portName) => true;
+    public override bool OnAddOutputPort(RasaNode rasaNode, Type portType, string portName) => true;
+    public override bool OnRemoveOutputPort(RasaNode rasaNode, Type portType, string portName) => true;
   }
 }

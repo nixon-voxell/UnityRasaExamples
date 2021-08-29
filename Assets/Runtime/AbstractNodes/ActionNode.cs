@@ -17,25 +17,15 @@ The Original Code is Copyright (C) 2020 Voxell Technologies.
 All rights reserved.
 */
 
+using System;
 using System.Collections.Generic;
-using UnityEngine;
-using Voxell.Inspector;
 
 namespace Voxell.Rasa
 {
-  public abstract class RasaNode : ScriptableObject
+  public abstract class ActionNode : RasaNode
   {
-    [HideInInspector] public string guid;
-    [HideInInspector] public Vector2 position;
-    [HideInInspector] public List<string> childGuids;
-    [InspectOnly] public RasaState state = RasaState.Idle;
-
-    public void Initialize(string name, string guid, Vector2 position)
-    {
-      this.name = name;
-      this.guid = guid;
-      this.position = position;
-    }
+    public RasaNode parentNode;
+    public RasaNode childNode;
 
     public RasaState Update()
     {
@@ -60,34 +50,35 @@ namespace Voxell.Rasa
     protected abstract void OnStop();
     protected abstract RasaState OnUpdate();
 
-    public abstract List<PortInfo> CreateInputPorts();
-    public abstract List<PortInfo> CreateOutputPorts();
-  }
+    public override List<PortInfo> CreateInputPorts()
+      => new List<PortInfo> { new PortInfo(CapacityInfo.Single, typeof(bool), "flow", EdgeColor.flow) };
 
-  public enum RasaState { Idle = 0, Running = 1, Success = 2, Failure = 3 }
-  public enum CapacityInfo { Single = 0, Multi = 1 }
+    public override List<PortInfo> CreateOutputPorts()
+      => new List<PortInfo> { new PortInfo(CapacityInfo.Single, typeof(bool), "flow", EdgeColor.flow) };
 
-  public struct PortInfo
-  {
-    public PortInfo(CapacityInfo capacityInfo, System.Type type, string name, Color color)
+    public override bool OnAddInputPort(RasaNode rasaNode, Type portType, string portName)
     {
-      this.capacityInfo = capacityInfo;
-      this.type = type;
-      this.name = name;
-      this.color = color;
+      if (portType == typeof(bool))
+      { parentNode = rasaNode; return true; }
+      return false;
     }
-
-    public PortInfo(CapacityInfo capacityInfo, System.Type type, string name)
+    public override bool OnRemoveInputPort(RasaNode rasaNode, Type portType, string portName)
     {
-      this.capacityInfo = capacityInfo;
-      this.type = type;
-      this.name = name;
-      this.color = Color.white;
+      if (portType == typeof(bool))
+      { parentNode = null; return true; }
+      return false;
     }
-
-    public CapacityInfo capacityInfo;
-    public System.Type type;
-    public string name;
-    public Color color;
+    public override bool OnAddOutputPort(RasaNode rasaNode, Type portType, string portName)
+    {
+      if (portType == typeof(bool))
+      { childNode = rasaNode; return true; }
+      return false;
+    }
+    public override bool OnRemoveOutputPort(RasaNode rasaNode, Type portType, string portName)
+    {
+      if (portType == typeof(bool))
+      { childNode = null; return true; }
+      return false;
+    }
   }
 }

@@ -17,16 +17,16 @@ The Original Code is Copyright (C) 2020 Voxell Technologies.
 All rights reserved.
 */
 
-using System.Collections.Generic;
+using UnityEngine;
 
 namespace Voxell.Rasa
 {
-  public class RootNode : ActionNode
+  public static class EdgeColor
   {
-    protected override void OnStart() => state = RasaState.Running;
-    protected override RasaState OnUpdate() => RasaState.Success;
-    protected override void OnStop() {}
+    public static Color flow = new Color(0.80f, 0.33f, 0.50f, 1.0f);
+    public static Color obj = new Color(0.70f, 0.70f, 0.70f, 1.0f);
 
-    public override List<PortInfo> CreateInputPorts() => new List<PortInfo>();
+    public static Color str = new Color(0.47f, 0.75f, 0.02f, 1.0f);
+    public static Color strList = new Color(0.00f, 0.42f, 0.31f, 1.0f);
   }
 }

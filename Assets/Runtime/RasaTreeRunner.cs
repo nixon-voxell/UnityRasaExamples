@@ -18,17 +18,16 @@ All rights reserved.
 */
 
 using UnityEngine;
+using Voxell.Inspector;
 
 namespace Voxell.Rasa
 {
   public class RasaTreeRunner : MonoBehaviour
   {
-    private RasaTree _tree;
+    public RasaTree _tree;
 
-    void Start()
-    {}
-
-    void Update()
+    [Button]
+    public void TreeUpdate()
     {
       _tree.Update();
     }

@@ -59,23 +59,27 @@ namespace Voxell.Rasa.UI
       _showButton = root.Q<Button>("show-in-project");
       _showButton.clickable = new Clickable(() => EditorGUIUtility.PingObject(rasaTree));
 
-      if (rasaTree != null) _graphView.Initialize(rasaTree, this);
-      _graphView.PopulateView();
       _graphView.OnNodeSelected = (nodeView) => _inspectorView.UpdateSelection(nodeView);
       _graphView.OnNodeUnSelected = _inspectorView.ClearSelection;
+      if (rasaTree != null) _graphView.Initialize(rasaTree, this);
+      _graphView.PopulateView();
     }
 
     private void SaveAsset()
     {
+      // remove all previous cached nodes
       for (int n=0; n < rasaTree.cachedNodes?.Length; n++)
       {
-        // remove all previous cached nodes
-        if (AssetDatabase.Contains(rasaTree.cachedNodes[n]))
+        RasaNode rasaNode = rasaTree.cachedNodes[n];
+        if (AssetDatabase.Contains(rasaNode))
           AssetDatabase.RemoveObjectFromAsset(rasaTree.cachedNodes[n]);
       }
 
       for (int n=0; n < rasaTree.rasaNodes.Count; n++)
-        AssetDatabase.AddObjectToAsset(rasaTree.rasaNodes[n], rasaTree);
+      {
+        RasaNode rasaNode = rasaTree.rasaNodes[n];
+        AssetDatabase.AddObjectToAsset(rasaNode, rasaTree);
+      }
 
       AssetDatabase.SaveAssets();
       rasaTree.Cache();

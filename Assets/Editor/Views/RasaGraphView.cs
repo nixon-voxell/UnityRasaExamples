@@ -38,8 +38,9 @@ namespace Voxell.UI
 
     private EditorWindow _editorWindow;
     private Vector2 _mousePosition;
-    private SearcherItem[] _searcherItems;
-    private Type[] _nodeTypes;
+    private List<Type> _nodeTypes;
+    private List<SearcherItem> _searcherItems;
+    private Dictionary<string, int> _nodeMap;
 
     public RasaGraphView()
     {
@@ -63,6 +64,14 @@ namespace Voxell.UI
     internal void Initialize(RasaTree rasaTree, EditorWindow editorWindow)
     {
       this.rasaTree = rasaTree;
+      if (rasaTree.rootNode == null)
+      {
+        RootNode rootNode = ScriptableObject.CreateInstance<RootNode>();
+        rootNode.Initialize("Entry Point", GUID.Generate().ToString(), new Vector2(20.0f, 50.0f));
+        rasaTree.rootNode = rootNode;
+        AssetDatabase.AddObjectToAsset(rasaTree.rootNode, rasaTree);
+        AssetDatabase.SaveAssets();
+      }
       _editorWindow = editorWindow;
     }
 
@@ -73,20 +82,63 @@ namespace Voxell.UI
         graphViewChanged -= OnGraphViewChanged;
         DeleteElements(graphElements);
         graphViewChanged += OnGraphViewChanged;
-        rasaTree.rasaNodes.ForEach(n => CreateNodeView(n));
+
+        CreateNodeView(rasaTree.rootNode);
+        for (int n=0; n < rasaTree.rasaNodes?.Count; n++)
+          CreateNodeView(rasaTree.rasaNodes[n]);
       }
+    }
+
+    /// <summary>
+    /// Recursively generate menu based on path name
+    /// </summary>
+    private SearcherItem RecursiveMenuGeneration(SearcherItem parentItem, int pathIdx, ref string[] paths)
+    {
+      SearcherItem item = new SearcherItem(paths[pathIdx]);
+      int parentIdx;
+      if (parentItem.Children.Contains(item)) parentIdx = parentItem.Children.IndexOf(item);
+      else
+      {
+        parentIdx = parentItem.Children.Count;
+        parentItem.AddChild(item);
+      }
+
+      if (++pathIdx < paths.Length)
+        parentItem.Children[parentIdx] = RecursiveMenuGeneration(parentItem.Children[parentIdx], pathIdx, ref paths);
+      return parentItem;
     }
 
     private void NodeCreationRequest(NodeCreationContext c)
     {
       _mousePosition = c.screenMousePosition - _editorWindow.position.position;
-      _nodeTypes = TypeCache.GetTypesDerivedFrom<RasaNode>().ToArray();
-      _searcherItems = new SearcherItem[_nodeTypes.Length];
+      _nodeTypes = TypeCache.GetTypesDerivedFrom<RasaNode>().ToList();
 
-      for (int t=0; t < _nodeTypes.Length; t++)
+      // remove root node and all abstract nodes
+      List<Type> nodeTypesToRemove = _nodeTypes.FindAll((t) => t.IsAbstract || t.IsGenericType);
+      nodeTypesToRemove.ForEach((t) => _nodeTypes.Remove(t));
+      _nodeTypes.Remove(typeof(RootNode));
+
+      // create search menu
+      _searcherItems = new List<SearcherItem>();
+      _nodeMap = new Dictionary<string, int>();
+      string[] pathNames = _nodeTypes.Select((t) => t.GetField("pathName").GetValue(null) as string).ToArray();
+
+      for (int p=0; p < pathNames.Length; p++)
       {
-        System.Type type = _nodeTypes[t];
-        _searcherItems[t] = new SearcherItem(type.Name.Replace("Node", ""));
+        string[] paths = pathNames[p].Split('/');
+        _nodeMap.Add(paths.Last(), p);
+
+        SearcherItem parentItem = new SearcherItem(paths[0]);
+        int parentIdx;
+        if (_searcherItems.Contains(parentItem)) parentIdx = _searcherItems.IndexOf(parentItem);
+        else
+        {
+          parentIdx = _searcherItems.Count;
+          _searcherItems.Add(parentItem);
+        }
+
+        if (paths.Length > 1)
+          _searcherItems[parentIdx] = RecursiveMenuGeneration(_searcherItems[parentIdx], 1, ref paths);
       }
 
       // only display the search window when current graph view is focused
@@ -105,7 +157,9 @@ namespace Voxell.UI
     {
       if (item != null)
       {
-        RasaNode rasaNode = ScriptableObject.CreateInstance(_nodeTypes[item.Id]) as RasaNode;
+        RasaNode rasaNode = ScriptableObject.CreateInstance(_nodeTypes[_nodeMap[item.Name]]) as RasaNode;
+        Undo.RecordObject(rasaTree, "Rasa Tree (Add Node)");
+        EditorUtility.SetDirty(rasaTree);
         CreateNode(rasaNode);
       }
 
@@ -120,8 +174,6 @@ namespace Voxell.UI
         contentViewContainer.WorldToLocal(_mousePosition)
       );
 
-      Undo.RecordObject(rasaTree, "Rasa Tree (Add Node)");
-      EditorUtility.SetDirty(rasaTree);
       rasaTree.rasaNodes.Add(rasaNode);
       CreateNodeView(rasaNode);
     }
@@ -139,21 +191,69 @@ namespace Voxell.UI
 
     private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
     {
-      Undo.RecordObject(rasaTree, "Rasa Tree (Remove Node)");
-      EditorUtility.SetDirty(rasaTree);
       if (graphViewChange.elementsToRemove != null)
       {
+        Undo.RecordObject(rasaTree, "Rasa Tree (Remove Element)");
+        EditorUtility.SetDirty(rasaTree);
         graphViewChange.elementsToRemove.ForEach(elem =>
         {
           RasaNodeView nodeView = elem as RasaNodeView;
           if (nodeView != null) rasaTree.rasaNodes.Remove(nodeView.rasaNode);
+
+          Edge edge = elem as Edge;
+          if (edge != null)
+          {
+            // output port information
+            Port outputPort = edge.output;
+            RasaNodeView outputNodeView = outputPort.node as RasaNodeView;
+            Type outputType = outputPort.portType;
+            string outputName = outputPort.name;
+
+            // input port information
+            Port inputPort = edge.input;
+            RasaNodeView inputNodeView = edge.input.node as RasaNodeView;
+            Type inputType = inputPort.portType;
+            string inputName = inputPort.name;
+
+            inputNodeView.rasaNode.OnRemoveInputPort(inputNodeView.rasaNode, inputType, inputName);
+            outputNodeView.rasaNode.OnRemoveOutputPort(outputNodeView.rasaNode, outputType, outputName);
+          }
+        });
+      }
+
+      if (graphViewChange.edgesToCreate != null)
+      {
+        Undo.RecordObject(rasaTree, "Rasa Tree (Create Edge)");
+        EditorUtility.SetDirty(rasaTree);
+        graphViewChange.edgesToCreate.ForEach(edge =>
+        {
+          // output port information
+          Port outputPort = edge.output;
+          RasaNodeView outputNodeView = outputPort.node as RasaNodeView;
+          Type outputType = outputPort.portType;
+          string outputName = outputPort.name;
+
+          // input port information
+          Port inputPort = edge.input;
+          RasaNodeView inputNodeView = edge.input.node as RasaNodeView;
+          Type inputType = inputPort.portType;
+          string inputName = inputPort.name;
+
+          inputNodeView.rasaNode.OnAddInputPort(inputNodeView.rasaNode, inputType, inputName);
+          outputNodeView.rasaNode.OnAddOutputPort(outputNodeView.rasaNode, outputType, outputName);
         });
       }
       return graphViewChange;
     }
 
     public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
-      => ports.ToList().Where(endPort => endPort.direction != startPort.direction && endPort.node != startPort.node).ToList();
+    {
+      return ports.Where((endPort) =>
+        endPort.direction != startPort.direction &&
+        endPort.node != startPort.node &&
+        (endPort.portType == startPort.portType ||
+          (endPort.portType == typeof(object) && startPort.portType != typeof(bool)))).ToList();
+    }
 
     public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
     {

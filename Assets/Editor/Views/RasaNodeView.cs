@@ -52,10 +52,10 @@ namespace Voxell.UI
           Orientation.Horizontal,
           Direction.Input,
           (Port.Capacity)inputPorts[ip].capacityInfo,
-          inputPorts[ip].type
+          inputPorts[ip].portType
         );
         port.portColor = inputPorts[ip].color;
-        port.portName = inputPorts[ip].name;
+        port.portName = inputPorts[ip].portName;
         inputContainer.Add(port);
       }
 
@@ -65,10 +65,10 @@ namespace Voxell.UI
           Orientation.Horizontal,
           Direction.Output,
           (Port.Capacity)outputPorts[op].capacityInfo,
-          outputPorts[op].type
+          outputPorts[op].portType
         );
         port.portColor = outputPorts[op].color;
-        port.portName = outputPorts[op].name;
+        port.portName = outputPorts[op].portName;
         outputContainer.Add(port);
       }
     }

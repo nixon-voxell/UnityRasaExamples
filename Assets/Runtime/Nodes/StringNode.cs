@@ -21,12 +21,14 @@ using System.Collections.Generic;
 
 namespace Voxell.Rasa
 {
-  public class RootNode : ActionNode
+  public sealed class StringNode : DataNode<string>
   {
-    protected override void OnStart() => state = RasaState.Running;
-    protected override RasaState OnUpdate() => RasaState.Success;
-    protected override void OnStop() {}
+    new public static string pathName = "Data/String";
 
-    public override List<PortInfo> CreateInputPorts() => new List<PortInfo>();
+    public override List<PortInfo> CreateOutputPorts()
+    {
+      return new List<PortInfo>()
+      { new PortInfo(CapacityInfo.Multi, typeof(string), "data", EdgeColor.str) };
+    }
   }
 }

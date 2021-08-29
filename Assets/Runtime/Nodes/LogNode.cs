@@ -17,31 +17,47 @@ The Original Code is Copyright (C) 2020 Voxell Technologies.
 All rights reserved.
 */
 
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Voxell.Rasa
 {
-  public class LogNode : RasaNode
+  public sealed class LogNode : ActionNode
   {
-    public string message;
+    new public static string pathName = "Debug/Log";
 
-    private static List<PortInfo> inputPortInfos = new List<PortInfo>
+    protected override void OnStart()
     {
-      new PortInfo(CapacityInfo.Single, typeof(bool), "Flow", Color.red),
-      new PortInfo(CapacityInfo.Single, typeof(string), "Message", Color.green)
-    };
-
-    private static List<PortInfo> outputPortInfos = new List<PortInfo>
-    {
-      new PortInfo(CapacityInfo.Multi, typeof(bool), "Flow", Color.red)
-    };
-
-    protected override void OnStart() => Debug.Log(message);
+      if (inputNodes.ContainsKey("message")) Debug.Log(inputNodes["message"][0].GetValue());
+    }
     protected override RasaState OnUpdate() => RasaState.Success;
     protected override void OnStop() {}
 
-    public override List<PortInfo> CreateInputPorts() => inputPortInfos;
-    public override List<PortInfo> CreateOutputPorts() => outputPortInfos;
+    public override List<PortInfo> CreateInputPorts()
+    {
+      List<PortInfo> portInfos = base.CreateInputPorts();
+      portInfos.Add(new PortInfo(CapacityInfo.Single, typeof(object), "object", EdgeColor.obj));
+      return portInfos;
+    }
+
+    public override bool OnAddInputPort(RasaNode rasaNode, Type portType, string portName)
+    {
+      if (base.OnAddInputPort(rasaNode, portType, portName)) return true;
+      else
+      {
+        inputNodes.Add("message", new List<Connection>() {new Connection(ref rasaNode, portName)});
+        return true;
+      }
+    }
+    public override bool OnRemoveInputPort(RasaNode rasaNode, Type portType, string portName)
+    {
+      if (base.OnAddInputPort(rasaNode, portType, portName)) return true;
+      else 
+      {
+        inputNodes.Remove("message");
+        return true;
+      }
+    }
   }
 }
