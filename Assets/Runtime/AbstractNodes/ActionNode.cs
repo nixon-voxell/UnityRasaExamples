@@ -24,26 +24,23 @@ namespace Voxell.Rasa
 {
   public abstract class ActionNode : RasaNode
   {
-    public RasaNode parentNode;
-    public RasaNode childNode;
+    public ActionNode parentNode;
+    public ActionNode childNode;
 
     public RasaState Update()
     {
-      if (state == RasaState.Idle)
+      if (rasaState == RasaState.Idle)
       {
         OnStart();
-        state = RasaState.Running;
+        rasaState = RasaState.Running;
       }
 
-      state = OnUpdate();
+      rasaState = OnUpdate();
 
-      if (state == RasaState.Failure || state == RasaState.Success)
-      {
+      if (rasaState == RasaState.Failure || rasaState == RasaState.Success)
         OnStop();
-        state = RasaState.Idle;
-      }
 
-      return state;
+      return rasaState;
     }
 
     protected abstract void OnStart();
@@ -59,7 +56,7 @@ namespace Voxell.Rasa
     public override bool OnAddInputPort(RasaNode rasaNode, Type portType, string portName)
     {
       if (portType == typeof(bool))
-      { parentNode = rasaNode; return true; }
+      { parentNode = rasaNode as ActionNode; return true; }
       return false;
     }
     public override bool OnRemoveInputPort(RasaNode rasaNode, Type portType, string portName)
@@ -71,7 +68,7 @@ namespace Voxell.Rasa
     public override bool OnAddOutputPort(RasaNode rasaNode, Type portType, string portName)
     {
       if (portType == typeof(bool))
-      { childNode = rasaNode; return true; }
+      { childNode = rasaNode as ActionNode; return true; }
       return false;
     }
     public override bool OnRemoveOutputPort(RasaNode rasaNode, Type portType, string portName)

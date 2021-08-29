@@ -28,9 +28,9 @@ namespace Voxell.Rasa
   {
     [HideInInspector] public string guid;
     [HideInInspector] public Vector2 position;
-    [InspectOnly] public RasaState state = RasaState.Idle;
-    public List<string> fieldNames;
-    public List<Connection> connections;
+    [HideInInspector] public List<string> fieldNames;
+    [HideInInspector] public List<Connection> connections;
+    [InspectOnly] public RasaState rasaState = RasaState.Idle;
 
     public static string pathName = "New Node";
 

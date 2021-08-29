@@ -17,7 +17,6 @@ The Original Code is Copyright (C) 2020 Voxell Technologies.
 All rights reserved.
 */
 
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Voxell.Rasa
@@ -38,7 +37,7 @@ namespace Voxell.Rasa
 
     protected override void OnStart()
     {
-      state = RasaState.Running;
+      rasaState = RasaState.Running;
       Connection connection = connections[0];
       int selectionIdx = Random.Range(0, connection.fieldNames.Count);
       selection = (T)connections[0].GetValue(selectionIdx);

@@ -24,12 +24,19 @@ namespace Voxell.Rasa
 {
   public class RasaTreeRunner : MonoBehaviour
   {
-    public RasaTree _tree;
+    public RasaTree rasaTree;
 
     [Button]
-    public void TreeUpdate()
+    void Start()
     {
-      _tree.Update();
+      rasaTree.ResetTree();
+    }
+
+    [Button]
+    void Update()
+    {
+      RasaState rasaState = rasaTree.UpdateTree();
+      if (rasaState == RasaState.Success) rasaTree.ResetTree();
     }
   }
 }

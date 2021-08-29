@@ -27,16 +27,35 @@ namespace Voxell.Rasa
   public class RasaTree : ScriptableObject
   {
     public RootNode rootNode;
-    public RasaState treeState = RasaState.Idle;
     public List<RasaNode> rasaNodes = new List<RasaNode>();
     public RasaNode[] cachedNodes;
 
-    public RasaState Update()
-    {
-      if (rootNode.state == RasaState.Running)
-        treeState = rootNode.Update();
+    private ActionNode runningNode;
 
-      return treeState;
+    public RasaState UpdateTree()
+    {
+      if (runningNode.rasaState == RasaState.Idle)
+        runningNode.Update();
+      else if (runningNode.rasaState == RasaState.Success)
+      {
+        if (runningNode.childNode != null)
+          runningNode = runningNode.childNode;
+        else return RasaState.Success;
+      } else if (runningNode.rasaState == RasaState.Failure)
+      {
+        Debug.LogError($"Rasa Tree failed at node: {runningNode.name}");
+        return RasaState.Failure;
+      }
+
+      return RasaState.Running;
+    }
+
+    public void ResetTree()
+    {
+      for (int n=0; n < rasaNodes.Count; n++)
+        rasaNodes[n].rasaState = RasaState.Idle;
+
+      runningNode = rootNode;
     }
 
     public void Cache() => cachedNodes = rasaNodes.ToArray();
