@@ -46,13 +46,13 @@ namespace Voxell.Rasa
       if (base.OnAddInputPort(rasaNode, portType, portName)) return true;
       else
       {
-        inputNodes.Add("message", new List<Connection>() {new Connection(ref rasaNode, portName)});
+        inputNodes.Add("object", new List<Connection>() {new Connection(ref rasaNode, portName)});
         return true;
       }
     }
     public override bool OnRemoveInputPort(RasaNode rasaNode, Type portType, string portName)
     {
-      if (base.OnAddInputPort(rasaNode, portType, portName)) return true;
+      if (base.OnRemoveInputPort(rasaNode, portType, portName)) return true;
       else 
       {
         inputNodes.Remove("message");

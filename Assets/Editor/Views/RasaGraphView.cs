@@ -91,7 +91,40 @@ namespace Voxell.UI
         // create edges
         for (int n=0; n < rasaTree.rasaNodes?.Count; n++)
         {
-          RasaNodeView childNodeView = GetNodeByGuid(rasaTree.rasaNodes[n].guid) as RasaNodeView;
+          RasaNode childNode = rasaTree.rasaNodes[n];
+          RasaNodeView childNodeView = GetNodeByGuid(childNode.guid) as RasaNodeView;
+
+          if (childNode is ActionNode)
+          {
+            ActionNode actionNode = childNode as ActionNode;
+            if (actionNode.parentNode != null)
+            {
+              RasaNodeView parentNodeView = GetNodeByGuid(actionNode.parentNode.guid) as RasaNodeView;
+              Edge edge = parentNodeView.outputPorts[0].ConnectTo(childNodeView.inputPorts[0]);
+              AddElement(edge);
+            }
+          }
+
+          // get all field names in current child node
+          string[] fields = childNode.inputNodes.Keys.ToArray();
+          Dictionary<string, int> chlidFieldMap = childNode.GenerateInputPortLocations();
+
+          for (int f=0; f < fields.Length; f++)
+          {
+            string childFieldName = fields[f];
+            List<Connection> connections = childNode.inputNodes[fields[f]];
+            for (int c=0; c < connections.Count; c++)
+            {
+              string parentFieldName = connections[c].fieldName;
+              RasaNode parentNode = connections[c].rasaNode;
+              Dictionary<string, int> parentFieldMap = parentNode.GenerateOutputPortLocations();
+              RasaNodeView parentNodeView = GetNodeByGuid(parentNode.guid) as RasaNodeView;
+
+              Edge edge = parentNodeView.outputPorts[parentFieldMap[parentFieldName]].ConnectTo(
+                childNodeView.inputPorts[chlidFieldMap[childFieldName]]);
+              AddElement(edge);
+            }
+          }
         }
       }
     }
@@ -215,16 +248,16 @@ namespace Voxell.UI
             Port outputPort = edge.output;
             RasaNodeView outputNodeView = outputPort.node as RasaNodeView;
             Type outputType = outputPort.portType;
-            string outputName = outputPort.name;
+            string outputName = outputPort.portName;
 
             // input port information
             Port inputPort = edge.input;
-            RasaNodeView inputNodeView = edge.input.node as RasaNodeView;
+            RasaNodeView inputNodeView = inputPort.node as RasaNodeView;
             Type inputType = inputPort.portType;
-            string inputName = inputPort.name;
+            string inputName = inputPort.portName;
 
-            inputNodeView.rasaNode.OnRemoveInputPort(inputNodeView.rasaNode, inputType, inputName);
-            outputNodeView.rasaNode.OnRemoveOutputPort(outputNodeView.rasaNode, outputType, outputName);
+            inputNodeView.rasaNode.OnRemoveInputPort(outputNodeView.rasaNode, outputType, outputName);
+            outputNodeView.rasaNode.OnRemoveOutputPort(inputNodeView.rasaNode, inputType, inputName);
           }
         });
       }
@@ -239,16 +272,16 @@ namespace Voxell.UI
           Port outputPort = edge.output;
           RasaNodeView outputNodeView = outputPort.node as RasaNodeView;
           Type outputType = outputPort.portType;
-          string outputName = outputPort.name;
+          string outputName = outputPort.portName;
 
           // input port information
           Port inputPort = edge.input;
           RasaNodeView inputNodeView = edge.input.node as RasaNodeView;
           Type inputType = inputPort.portType;
-          string inputName = inputPort.name;
+          string inputName = inputPort.portName;
 
-          inputNodeView.rasaNode.OnAddInputPort(inputNodeView.rasaNode, inputType, inputName);
-          outputNodeView.rasaNode.OnAddOutputPort(outputNodeView.rasaNode, outputType, outputName);
+          inputNodeView.rasaNode.OnAddInputPort(outputNodeView.rasaNode, outputType, outputName);
+          outputNodeView.rasaNode.OnAddOutputPort(inputNodeView.rasaNode, inputType, inputName);
         });
       }
       return graphViewChange;

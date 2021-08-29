@@ -43,6 +43,9 @@ namespace Voxell.UI
       style.left = rasaNode.position.x;
       style.top = rasaNode.position.y;
 
+      inputPorts = new List<Port>();
+      outputPorts = new List<Port>();
+
       List<PortInfo> inputPortInfos = rasaNode.CreateInputPorts();
       List<PortInfo> outputPortInfos = rasaNode.CreateOutputPorts();
 

@@ -31,7 +31,7 @@ namespace Voxell.Rasa
     [InspectOnly] public RasaState state = RasaState.Idle;
 
     public static string pathName = "Base";
-    public Dictionary<string, List<Connection>> inputNodes;
+    [SerializeField] public Dictionary<string, List<Connection>> inputNodes;
 
     public virtual void OnEnable()
     {
@@ -44,6 +44,31 @@ namespace Voxell.Rasa
       this.name = name;
       this.guid = guid;
       this.position = position;
+    }
+
+    /// <summary>
+    /// Get port locations based on field name
+    /// </summary>
+    public Dictionary<string, int> GenerateInputPortLocations()
+    {
+      Dictionary<string, int> map = new Dictionary<string, int>();
+      List<PortInfo> portInfos = CreateInputPorts();
+      for (int p=0; p < portInfos.Count; p++)
+        map.Add(portInfos[p].portName, p);
+
+      return map;
+    }
+    /// <summary>
+    /// Get port locations based on field name
+    /// </summary>
+    public Dictionary<string, int> GenerateOutputPortLocations()
+    {
+      Dictionary<string, int> map = new Dictionary<string, int>();
+      List<PortInfo> portInfos = CreateOutputPorts();
+      for (int p=0; p < portInfos.Count; p++)
+        map.Add(portInfos[p].portName, p);
+
+      return map;
     }
 
     #region Port Creation Infos
