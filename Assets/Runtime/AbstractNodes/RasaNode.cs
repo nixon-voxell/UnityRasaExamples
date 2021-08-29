@@ -46,12 +46,38 @@ namespace Voxell.Rasa
       this.position = position;
     }
 
+    #region Port Creation Infos
+    /// <summary>
+    /// Generate input port infos
+    /// </summary>
     public abstract List<PortInfo> CreateInputPorts();
+    /// <summary>
+    /// Generate output port infos
+    /// </summary>
     public abstract List<PortInfo> CreateOutputPorts();
+    #endregion
 
+    #region Connection Actions
+    /// <summary>
+    /// Actions to perform when input port is connected
+    /// </summary>
+    /// <returns>true if succeeds, otherwise, false</returns>
     public abstract bool OnAddInputPort(RasaNode rasaNode, Type portType, string portName);
+    /// <summary>
+    /// Actions to perform when input port is disconnected
+    /// </summary>
+    /// <returns>true if succeeds, otherwise, false</returns>
     public abstract bool OnRemoveInputPort(RasaNode rasaNode, Type portType, string portName);
+    /// <summary>
+    /// Actions to perform when output port is connected
+    /// </summary>
+    /// <returns>true if succeeds, otherwise, false</returns>
     public abstract bool OnAddOutputPort(RasaNode rasaNode, Type portType, string portName);
+    /// <summary>
+    /// Actions to perform when output port is disconnected
+    /// </summary>
+    /// <returns>true if succeeds, otherwise, false</returns>
     public abstract bool OnRemoveOutputPort(RasaNode rasaNode, Type portType, string portName);
+    #endregion
   }
 }

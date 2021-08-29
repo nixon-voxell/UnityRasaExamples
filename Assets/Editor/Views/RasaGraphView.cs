@@ -83,9 +83,16 @@ namespace Voxell.UI
         DeleteElements(graphElements);
         graphViewChanged += OnGraphViewChanged;
 
+        // create node views
         CreateNodeView(rasaTree.rootNode);
         for (int n=0; n < rasaTree.rasaNodes?.Count; n++)
           CreateNodeView(rasaTree.rasaNodes[n]);
+
+        // create edges
+        for (int n=0; n < rasaTree.rasaNodes?.Count; n++)
+        {
+          RasaNodeView childNodeView = GetNodeByGuid(rasaTree.rasaNodes[n].guid) as RasaNodeView;
+        }
       }
     }
 
@@ -125,6 +132,7 @@ namespace Voxell.UI
 
       for (int p=0; p < pathNames.Length; p++)
       {
+        // split path names into individual section names
         string[] paths = pathNames[p].Split('/');
         _nodeMap.Add(paths.Last(), p);
 

@@ -31,8 +31,8 @@ namespace Voxell.UI
     public Action<RasaNodeView> OnNodeSelected;
     public Action OnNodeUnSelected;
     public RasaNode rasaNode;
-    public List<PortInfo> inputPorts;
-    public List<PortInfo> outputPorts;
+    public List<Port> inputPorts;
+    public List<Port> outputPorts;
 
     public RasaNodeView(RasaNode rasaNode)
     {
@@ -43,32 +43,34 @@ namespace Voxell.UI
       style.left = rasaNode.position.x;
       style.top = rasaNode.position.y;
 
-      inputPorts = rasaNode.CreateInputPorts();
-      outputPorts = rasaNode.CreateOutputPorts();
+      List<PortInfo> inputPortInfos = rasaNode.CreateInputPorts();
+      List<PortInfo> outputPortInfos = rasaNode.CreateOutputPorts();
 
-      for (int ip=0; ip < inputPorts.Count; ip++)
+      for (int ip=0; ip < inputPortInfos.Count; ip++)
       {
         Port port = InstantiatePort(
           Orientation.Horizontal,
           Direction.Input,
-          (Port.Capacity)inputPorts[ip].capacityInfo,
-          inputPorts[ip].portType
+          (Port.Capacity)inputPortInfos[ip].capacityInfo,
+          inputPortInfos[ip].portType
         );
-        port.portColor = inputPorts[ip].color;
-        port.portName = inputPorts[ip].portName;
+        port.portColor = inputPortInfos[ip].color;
+        port.portName = inputPortInfos[ip].portName;
+        inputPorts.Add(port);
         inputContainer.Add(port);
       }
 
-      for (int op=0; op < outputPorts.Count; op++)
+      for (int op=0; op < outputPortInfos.Count; op++)
       {
         Port port = InstantiatePort(
           Orientation.Horizontal,
           Direction.Output,
-          (Port.Capacity)outputPorts[op].capacityInfo,
-          outputPorts[op].portType
+          (Port.Capacity)outputPortInfos[op].capacityInfo,
+          outputPortInfos[op].portType
         );
-        port.portColor = outputPorts[op].color;
-        port.portName = outputPorts[op].portName;
+        port.portColor = outputPortInfos[op].color;
+        port.portName = outputPortInfos[op].portName;
+        outputPorts.Add(port);
         outputContainer.Add(port);
       }
     }
