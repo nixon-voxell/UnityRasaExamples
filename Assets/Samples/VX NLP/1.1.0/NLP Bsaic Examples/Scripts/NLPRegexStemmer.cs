@@ -11,21 +11,21 @@ public class NLPRegexStemmer : MonoBehaviour
   public string[] tokens;
   public string[] stemmedTokens;
 
-  private EnglishMaximumEntropyTokenizer _tokenizer;
-  private RegexStemmer _regexStemmer;
+  private EnglishMaximumEntropyTokenizer tokenizer;
+  private RegexStemmer regexStemmer;
 
   [Button]
   public void Stem()
   {
-    _tokenizer = new EnglishMaximumEntropyTokenizer(FileUtil.GetStreamingAssetFilePath(tokenizerModel));
-    _regexStemmer = new RegexStemmer();
-    _regexStemmer.CreatePattern();
+    tokenizer = new EnglishMaximumEntropyTokenizer(FileUtil.GetStreamingAssetFilePath(tokenizerModel));
+    regexStemmer = new RegexStemmer();
+    regexStemmer.CreatePattern();
 
     // tokenize
-    tokens = _tokenizer.Tokenize(sentence);
+    tokens = tokenizer.Tokenize(sentence);
     stemmedTokens = new string[tokens.Length];
     // stem
     for (int t=0; t < tokens.Length; t++)
-      stemmedTokens[t] = _regexStemmer.Stem(tokens[t]);
+      stemmedTokens[t] = regexStemmer.Stem(tokens[t]);
   }
 }

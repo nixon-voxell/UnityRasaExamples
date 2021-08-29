@@ -172,6 +172,14 @@
         "com.unity.nuget.newtonsoft-json": "2.0.0"
       }
     },
+    "voxell.rasa": {
+      "version": "file:UnityRasa",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "voxell.util": ""
+      }
+    },
     "voxell.util": {
       "version": "file:UnityUtil",
       "depth": 0,

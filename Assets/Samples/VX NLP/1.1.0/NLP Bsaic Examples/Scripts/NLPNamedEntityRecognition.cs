@@ -11,12 +11,12 @@ public class NLPNamedEntityRecognition : MonoBehaviour
   { "date", "location", "money", "organization", "percentage", "person", "time" };
   [TextArea(1, 5), InspectOnly] public string ner;
 
-  private EnglishNameFinder _nameFinder;
+  private EnglishNameFinder nameFinder;
 
   [Button]
   public void Recognize()
   {
-    _nameFinder = new EnglishNameFinder(FileUtil.GetStreamingAssetFilePath(nameFinderModel));
-    ner = _nameFinder.GetNames(models, sentence);
+    nameFinder = new EnglishNameFinder(FileUtil.GetStreamingAssetFilePath(nameFinderModel));
+    ner = nameFinder.GetNames(models, sentence);
   }
 }

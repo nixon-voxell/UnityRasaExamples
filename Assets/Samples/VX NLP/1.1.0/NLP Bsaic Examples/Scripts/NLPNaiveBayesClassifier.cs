@@ -25,10 +25,10 @@ public class NLPNaiveBayesClassifier : MonoBehaviour
   [InspectOnly] public string classifiedLabel;
   [InspectOnly] public double highestConfidence;
 
-  private NaiveBayesClassifier _classifier;
-  private EnglishMaximumEntropyTokenizer _tokenizer;
-  private EnglishMaximumEntropyPosTagger _posTagger;
-  private RegexStemmer _stemmer;
+  private NaiveBayesClassifier classifier;
+  private EnglishMaximumEntropyTokenizer tokenizer;
+  private EnglishMaximumEntropyPosTagger posTagger;
+  private RegexStemmer stemmer;
 
   public void InitializeData()
   {
@@ -38,13 +38,13 @@ public class NLPNaiveBayesClassifier : MonoBehaviour
     classifyOptions.labels.Clear();
     classifyOptions.labels.TrimExcess();
 
-    // create tokenizer, pos tagger, and _stemmer
-    _tokenizer = new EnglishMaximumEntropyTokenizer(FileUtil.GetStreamingAssetFilePath(tokenizerModel));
-    _posTagger = new EnglishMaximumEntropyPosTagger(
+    // create tokenizer, pos tagger, and stemmer
+    tokenizer = new EnglishMaximumEntropyTokenizer(FileUtil.GetStreamingAssetFilePath(tokenizerModel));
+    posTagger = new EnglishMaximumEntropyPosTagger(
       FileUtil.GetStreamingAssetFilePath(posTaggerModel),
       FileUtil.GetStreamingAssetFilePath(tagDict));
-    _stemmer = new RegexStemmer();
-    _stemmer.CreatePattern();
+    stemmer = new RegexStemmer();
+    stemmer.CreatePattern();
 
     // generate data
     var data = JsonConvert.DeserializeObject<JObject>(dataset.text);
@@ -59,7 +59,7 @@ public class NLPNaiveBayesClassifier : MonoBehaviour
         sentences.Add(new Sentence(
           ((string)text).ToLower(),
           (string)intent["intent"],
-          _tokenizer, _posTagger, _stemmer
+          tokenizer, posTagger, stemmer
         ));
     }
   }
@@ -69,33 +69,33 @@ public class NLPNaiveBayesClassifier : MonoBehaviour
   {
     InitializeData();
     // train and save the model
-    _classifier = new NaiveBayesClassifier();
-    _classifier.Train(sentences, classifyOptions);
-    _classifier.SaveModel(classifyOptions);
+    classifier = new NaiveBayesClassifier();
+    classifier.Train(sentences, classifyOptions);
+    classifier.SaveModel(classifyOptions);
   }
 
   [Button]
   public void Classify()
   {
-    if (_tokenizer == null)
+    if (tokenizer == null)
     {
-      // recreate _tokenizer, pos tagger, and _stemmer if editor is being refreshed
-      _tokenizer = new EnglishMaximumEntropyTokenizer(FileUtil.GetStreamingAssetFilePath(tokenizerModel));
-      _posTagger = new EnglishMaximumEntropyPosTagger(
+      // recreate tokenizer, pos tagger, and stemmer if editor is being refreshed
+      tokenizer = new EnglishMaximumEntropyTokenizer(FileUtil.GetStreamingAssetFilePath(tokenizerModel));
+      posTagger = new EnglishMaximumEntropyPosTagger(
         FileUtil.GetStreamingAssetFilePath(posTaggerModel),
         FileUtil.GetStreamingAssetFilePath(tagDict));
-      _stemmer = new RegexStemmer();
-      _stemmer.CreatePattern();
+      stemmer = new RegexStemmer();
+      stemmer.CreatePattern();
     }
 
     // convert string sentence to Sentence class
-    Sentence sent = new Sentence(sentenceToClassify.ToLower(), "", _tokenizer, _posTagger, _stemmer);
-    _classifier = new NaiveBayesClassifier();
-    _classifier.LoadModel(classifyOptions);
+    Sentence sent = new Sentence(sentenceToClassify.ToLower(), "", tokenizer, posTagger, stemmer);
+    classifier = new NaiveBayesClassifier();
+    classifier.LoadModel(classifyOptions);
 
-    // take a look at all the vocabs that the _classifier stored
-    vocabs = _classifier.words;
-    List<Tuple<string, double>> result = _classifier.Classify(sent, classifyOptions);
+    // take a look at all the vocabs that the classifier stored
+    vocabs = classifier.words;
+    List<Tuple<string, double>> result = classifier.Classify(sent, classifyOptions);
 
     classifiedLabel = "";
     highestConfidence = 0.0;

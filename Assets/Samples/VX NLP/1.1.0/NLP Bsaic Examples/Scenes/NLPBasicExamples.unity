@@ -20166,9 +20166,9 @@ MonoBehaviour:
   - with
   - you
   - your
-  sentenceToClassify: tell me a joke
-  classifiedLabel: Jokes
-  highestConfidence: 0.3571916793040184
+  sentenceToClassify: Hi there!
+  classifiedLabel: Greeting
+  highestConfidence: 0.33014902944506386
 --- !u!1 &590650652
 GameObject:
   m_ObjectHideFlags: 0
