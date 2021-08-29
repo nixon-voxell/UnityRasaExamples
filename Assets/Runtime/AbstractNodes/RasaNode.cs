@@ -29,14 +29,17 @@ namespace Voxell.Rasa
     [HideInInspector] public string guid;
     [HideInInspector] public Vector2 position;
     [InspectOnly] public RasaState state = RasaState.Idle;
+    public List<string> fieldNames;
+    public List<Connection> connections;
 
-    public static string pathName = "Base";
-    [SerializeField] public Dictionary<string, List<Connection>> inputNodes;
+    public static string pathName = "New Node";
 
     public virtual void OnEnable()
     {
-      if (inputNodes == null)
-        inputNodes = new Dictionary<string, List<Connection>>();
+      if (connections == null)
+        connections = new List<Connection>();
+      if (fieldNames == null)
+        fieldNames = new List<string>();
     }
 
     public void Initialize(string name, string guid, Vector2 position)

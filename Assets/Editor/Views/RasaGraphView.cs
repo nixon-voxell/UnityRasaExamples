@@ -106,22 +106,23 @@ namespace Voxell.UI
           }
 
           // get all field names in current child node
-          string[] fields = childNode.inputNodes.Keys.ToArray();
           Dictionary<string, int> chlidFieldMap = childNode.GenerateInputPortLocations();
 
-          for (int f=0; f < fields.Length; f++)
+          for (int f=0; f < childNode.fieldNames.Count; f++)
           {
-            string childFieldName = fields[f];
-            List<Connection> connections = childNode.inputNodes[fields[f]];
-            for (int c=0; c < connections.Count; c++)
+            // get output port's field name
+            string outputPortName = childNode.fieldNames[f];
+            // get all ports that are connected to the output port
+            Connection connection = childNode.connections[f];
+            for (int c=0; c < connection.fieldNames.Count; c++)
             {
-              string parentFieldName = connections[c].fieldName;
-              RasaNode parentNode = connections[c].rasaNode;
+              string inputPortName = connection.fieldNames[c];
+              RasaNode parentNode = connection.rasaNodes[c];
               Dictionary<string, int> parentFieldMap = parentNode.GenerateOutputPortLocations();
               RasaNodeView parentNodeView = GetNodeByGuid(parentNode.guid) as RasaNodeView;
 
-              Edge edge = parentNodeView.outputPorts[parentFieldMap[parentFieldName]].ConnectTo(
-                childNodeView.inputPorts[chlidFieldMap[childFieldName]]);
+              Edge edge = parentNodeView.outputPorts[parentFieldMap[inputPortName]].ConnectTo(
+                childNodeView.inputPorts[chlidFieldMap[outputPortName]]);
               AddElement(edge);
             }
           }

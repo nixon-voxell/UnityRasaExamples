@@ -29,15 +29,19 @@ namespace Voxell.Rasa
     public override void OnEnable()
     {
       base.OnEnable();
-      if (!inputNodes.ContainsKey("data")) inputNodes.Add("data", new List<Connection>());
+      if (!fieldNames.Contains("data"))
+      {
+        fieldNames.Add("data");
+        connections.Add(new Connection());
+      }
     }
 
     protected override void OnStart()
     {
       state = RasaState.Running;
-      List<Connection> connections = inputNodes["data"];
-      int selectionIdx = Random.Range(0, connections.Count);
-      selection = (T)connections[selectionIdx].GetValue();
+      Connection connection = connections[0];
+      int selectionIdx = Random.Range(0, connection.fieldNames.Count);
+      selection = (T)connections[0].GetValue(selectionIdx);
     }
     protected override RasaState OnUpdate() => RasaState.Success;
     protected override void OnStop() {}

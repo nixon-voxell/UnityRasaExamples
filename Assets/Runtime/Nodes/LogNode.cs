@@ -27,9 +27,19 @@ namespace Voxell.Rasa
   {
     new public static string pathName = "Debug/Log";
 
+    public override void OnEnable()
+    {
+      base.OnEnable();
+      if (!fieldNames.Contains("object"))
+      {
+        fieldNames.Add("object");
+        connections.Add(new Connection());
+      }
+    }
+
     protected override void OnStart()
     {
-      if (inputNodes.ContainsKey("message")) Debug.Log(inputNodes["message"][0].GetValue());
+      if (connections[0].fieldNames.Count == 1) Debug.Log(connections[0].GetValue(0));
     }
     protected override RasaState OnUpdate() => RasaState.Success;
     protected override void OnStop() {}
@@ -46,7 +56,7 @@ namespace Voxell.Rasa
       if (base.OnAddInputPort(rasaNode, portType, portName)) return true;
       else
       {
-        inputNodes.Add("object", new List<Connection>() {new Connection(ref rasaNode, portName)});
+        connections[0].Add(ref rasaNode, portName);
         return true;
       }
     }
@@ -55,7 +65,7 @@ namespace Voxell.Rasa
       if (base.OnRemoveInputPort(rasaNode, portType, portName)) return true;
       else 
       {
-        inputNodes.Remove("message");
+        connections[0].RemoveAt(0);
         return true;
       }
     }

@@ -18,6 +18,7 @@ All rights reserved.
 */
 
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Voxell.Rasa
@@ -41,18 +42,31 @@ namespace Voxell.Rasa
     }
   }
 
-  public struct Connection
+  [Serializable]
+  public class Connection
   {
-    public RasaNode rasaNode;
-    public string fieldName;
+    public List<RasaNode> rasaNodes;
+    public List<string> fieldNames;
 
-    public Connection(ref RasaNode rasaNode, string fieldName)
+    public Connection()
     {
-      this.rasaNode = rasaNode;
-      this.fieldName = fieldName;
+      this.rasaNodes = new List<RasaNode>();
+      this.fieldNames = new List<string>();
     }
 
-    public object GetValue()
-      => rasaNode.GetType().GetField(fieldName).GetValue(rasaNode);
+    public void Add(ref RasaNode rasaNode, string fieldName)
+    {
+      rasaNodes.Add(rasaNode);
+      fieldNames.Add(fieldName);
+    }
+
+    public void RemoveAt(int idx)
+    {
+      rasaNodes.RemoveAt(idx);
+      fieldNames.RemoveAt(idx);
+    }
+
+    public object GetValue(int idx)
+      => rasaNodes[idx].GetType().GetField(fieldNames[idx]).GetValue(rasaNodes[idx]);
   }
 }
