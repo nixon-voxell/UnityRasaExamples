@@ -357,7 +357,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b702338b9e160424a9be366168e840f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rasaTree: {fileID: 11400000, guid: 91cd7db7c6759254da4682d261547844, type: 2}
+  rasaTree: {fileID: 11400000, guid: b119afd98e02f8643a26e55dc3864777, type: 2}
+  rasaNLP:
+    maximumEntropyTokenizerModel: Models/EnglishTok.nbin
 --- !u!4 &1719174005
 Transform:
   m_ObjectHideFlags: 0
