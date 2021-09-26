@@ -177,7 +177,8 @@
       "depth": 0,
       "source": "embedded",
       "dependencies": {
-        "voxell.util": "",
+        "voxell.util": "1.1.0",
+        "voxell.nlp": "1.1.0",
         "com.unity.searcher": "4.3.2"
       }
     },
