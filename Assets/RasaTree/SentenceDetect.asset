@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-5508794955199072698
+--- !u!114 &-7015850201138653823
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -13,19 +13,19 @@ MonoBehaviour:
   m_Name: Random String Node
   m_EditorClassIdentifier: 
   guid: 925b7b18d897abc4fa86374aff06424f
-  position: {x: 394, y: 103}
+  position: {x: 444, y: 103}
   fieldNames:
   - array
   connections:
   - rasaNodes:
-    - {fileID: 6905483203085637446}
+    - {fileID: 1225230912614895157}
     fieldNames:
     - array
   rasaState: 0
-  parentNode: {fileID: 6905483203085637446}
-  childNode: {fileID: -3036038554652293088}
+  parentNode: {fileID: 1225230912614895157}
+  childNode: {fileID: -6949349549968741559}
   selection: And another test.
---- !u!114 &-3036038554652293088
+--- !u!114 &-6949349549968741559
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -38,16 +38,16 @@ MonoBehaviour:
   m_Name: Log Node
   m_EditorClassIdentifier: 
   guid: 547fe81952d143446a07597a872a13e8
-  position: {x: 556, y: 103}
+  position: {x: 606, y: 103}
   fieldNames:
   - object
   connections:
   - rasaNodes:
-    - {fileID: -5508794955199072698}
+    - {fileID: -7015850201138653823}
     fieldNames:
     - selection
   rasaState: 0
-  parentNode: {fileID: -5508794955199072698}
+  parentNode: {fileID: -7015850201138653823}
   childNode: {fileID: 0}
 --- !u!114 &11400000
 MonoBehaviour:
@@ -59,23 +59,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bdad2048e30ed124b98aca91ba621937, type: 3}
-  m_Name: Tokenize
+  m_Name: SentenceDetect
   m_EditorClassIdentifier: 
   sampleIntents: []
   propertyNames: []
   inputDataNodes: []
   rootNode: {fileID: 7694194898056224208}
   rasaNodes:
-  - {fileID: 6905483203085637446}
-  - {fileID: 8160896003026852828}
-  - {fileID: -3036038554652293088}
-  - {fileID: -5508794955199072698}
+  - {fileID: 102459097599615741}
+  - {fileID: -6949349549968741559}
+  - {fileID: -7015850201138653823}
+  - {fileID: 1225230912614895157}
   cachedNodes:
-  - {fileID: 6905483203085637446}
-  - {fileID: 8160896003026852828}
-  - {fileID: -3036038554652293088}
-  - {fileID: -5508794955199072698}
---- !u!114 &6905483203085637446
+  - {fileID: 0}
+  - {fileID: 102459097599615741}
+  - {fileID: -6949349549968741559}
+  - {fileID: -7015850201138653823}
+--- !u!114 &102459097599615741
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -84,27 +84,42 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b0c2695e2b3adc642b6bac4a5174e4d1, type: 3}
-  m_Name: Maximum Entropy Tokenizer Node
+  m_Script: {fileID: 11500000, guid: 922f96d7985e0374a8510e2e72af3ad4, type: 3}
+  m_Name: String Node
   m_EditorClassIdentifier: 
-  guid: 2fa7c56f5adf28e43a6741e6807b050c
-  position: {x: 154, y: 103}
+  guid: bb4fb85b7eadfad498c8f93cebe5f926
+  position: {x: 15, y: 127}
+  fieldNames: []
+  connections: []
+  rasaState: 0
+  data: This is a test. And another test.
+--- !u!114 &1225230912614895157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0bd34762b389424c892d0dbe915ca35, type: 3}
+  m_Name: Maximum Entropy Sentence Detector Node
+  m_EditorClassIdentifier: 
+  guid: c68fc713781c00e4f8c0d298c1664fa8
+  position: {x: 155, y: 103}
   fieldNames:
   - data
   connections:
   - rasaNodes:
-    - {fileID: 8160896003026852828}
+    - {fileID: 102459097599615741}
     fieldNames:
     - data
   rasaState: 0
   parentNode: {fileID: 7694194898056224208}
-  childNode: {fileID: -5508794955199072698}
+  childNode: {fileID: -7015850201138653823}
   array:
-  - This
-  - is
-  - a
-  - test
-  - .
+  - 'This is a test. '
+  - And another test.
 --- !u!114 &7694194898056224208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,22 +138,4 @@ MonoBehaviour:
   connections: []
   rasaState: 2
   parentNode: {fileID: 0}
-  childNode: {fileID: 6905483203085637446}
---- !u!114 &8160896003026852828
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 922f96d7985e0374a8510e2e72af3ad4, type: 3}
-  m_Name: String Node
-  m_EditorClassIdentifier: 
-  guid: bb4fb85b7eadfad498c8f93cebe5f926
-  position: {x: 15, y: 127}
-  fieldNames: []
-  connections: []
-  rasaState: 0
-  data: This is a test.
+  childNode: {fileID: 1225230912614895157}
