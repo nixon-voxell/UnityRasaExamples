@@ -1,31 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-5508794955199072698
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2841fbea2d422dc4c8109b73b0c140b4, type: 3}
-  m_Name: Random String Node
-  m_EditorClassIdentifier: 
-  guid: 925b7b18d897abc4fa86374aff06424f
-  position: {x: 394, y: 103}
-  fieldNames:
-  - array
-  connections:
-  - rasaNodes:
-    - {fileID: 6905483203085637446}
-    fieldNames:
-    - array
-  rasaState: 0
-  parentNode: {fileID: 6905483203085637446}
-  childNode: {fileID: -3036038554652293088}
-  selection: And another test.
---- !u!114 &-3036038554652293088
+--- !u!114 &-2239003794003782338
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -43,12 +18,37 @@ MonoBehaviour:
   - object
   connections:
   - rasaNodes:
-    - {fileID: -5508794955199072698}
+    - {fileID: -1075260662428116541}
     fieldNames:
     - selection
   rasaState: 0
-  parentNode: {fileID: -5508794955199072698}
+  parentNode: {fileID: -1075260662428116541}
   childNode: {fileID: 0}
+--- !u!114 &-1075260662428116541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2841fbea2d422dc4c8109b73b0c140b4, type: 3}
+  m_Name: Random String Node
+  m_EditorClassIdentifier: 
+  guid: 925b7b18d897abc4fa86374aff06424f
+  position: {x: 394, y: 103}
+  fieldNames:
+  - array
+  connections:
+  - rasaNodes:
+    - {fileID: 3639467481786430269}
+    fieldNames:
+    - array
+  rasaState: 0
+  parentNode: {fileID: 3639467481786430269}
+  childNode: {fileID: -2239003794003782338}
+  selection: And another test.
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66,16 +66,16 @@ MonoBehaviour:
   inputDataNodes: []
   rootNode: {fileID: 7694194898056224208}
   rasaNodes:
-  - {fileID: 6905483203085637446}
-  - {fileID: 8160896003026852828}
-  - {fileID: -3036038554652293088}
-  - {fileID: -5508794955199072698}
+  - {fileID: 3639467481786430269}
+  - {fileID: 7094279507840121959}
+  - {fileID: -2239003794003782338}
+  - {fileID: -1075260662428116541}
   cachedNodes:
-  - {fileID: 6905483203085637446}
-  - {fileID: 8160896003026852828}
-  - {fileID: -3036038554652293088}
-  - {fileID: -5508794955199072698}
---- !u!114 &6905483203085637446
+  - {fileID: 3639467481786430269}
+  - {fileID: 7094279507840121959}
+  - {fileID: -2239003794003782338}
+  - {fileID: -1075260662428116541}
+--- !u!114 &3639467481786430269
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -93,18 +93,36 @@ MonoBehaviour:
   - data
   connections:
   - rasaNodes:
-    - {fileID: 8160896003026852828}
+    - {fileID: 7094279507840121959}
     fieldNames:
     - data
   rasaState: 0
   parentNode: {fileID: 7694194898056224208}
-  childNode: {fileID: -5508794955199072698}
+  childNode: {fileID: -1075260662428116541}
   array:
   - This
   - is
   - a
   - test
   - .
+--- !u!114 &7094279507840121959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 922f96d7985e0374a8510e2e72af3ad4, type: 3}
+  m_Name: String Node
+  m_EditorClassIdentifier: 
+  guid: bb4fb85b7eadfad498c8f93cebe5f926
+  position: {x: 15, y: 127}
+  fieldNames: []
+  connections: []
+  rasaState: 0
+  data: This is a test.
 --- !u!114 &7694194898056224208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,22 +141,4 @@ MonoBehaviour:
   connections: []
   rasaState: 2
   parentNode: {fileID: 0}
-  childNode: {fileID: 6905483203085637446}
---- !u!114 &8160896003026852828
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 922f96d7985e0374a8510e2e72af3ad4, type: 3}
-  m_Name: String Node
-  m_EditorClassIdentifier: 
-  guid: bb4fb85b7eadfad498c8f93cebe5f926
-  position: {x: 15, y: 127}
-  fieldNames: []
-  connections: []
-  rasaState: 0
-  data: This is a test.
+  childNode: {fileID: 3639467481786430269}

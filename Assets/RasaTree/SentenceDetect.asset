@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-7015850201138653823
+--- !u!114 &-6510591855695386392
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -18,37 +18,13 @@ MonoBehaviour:
   - array
   connections:
   - rasaNodes:
-    - {fileID: 1225230912614895157}
+    - {fileID: 3591305982778199240}
     fieldNames:
     - array
   rasaState: 0
-  parentNode: {fileID: 1225230912614895157}
-  childNode: {fileID: -6949349549968741559}
-  selection: And another test.
---- !u!114 &-6949349549968741559
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43d578f3b29e15b42b63dc3eba2640f1, type: 3}
-  m_Name: Log Node
-  m_EditorClassIdentifier: 
-  guid: 547fe81952d143446a07597a872a13e8
-  position: {x: 606, y: 103}
-  fieldNames:
-  - object
-  connections:
-  - rasaNodes:
-    - {fileID: -7015850201138653823}
-    fieldNames:
-    - selection
-  rasaState: 0
-  parentNode: {fileID: -7015850201138653823}
-  childNode: {fileID: 0}
+  parentNode: {fileID: 3591305982778199240}
+  childNode: {fileID: 3075678387847047246}
+  selection: 'Hi there. '
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66,16 +42,16 @@ MonoBehaviour:
   inputDataNodes: []
   rootNode: {fileID: 7694194898056224208}
   rasaNodes:
-  - {fileID: 102459097599615741}
-  - {fileID: -6949349549968741559}
-  - {fileID: -7015850201138653823}
-  - {fileID: 1225230912614895157}
+  - {fileID: 1004318380770229093}
+  - {fileID: 3075678387847047246}
+  - {fileID: -6510591855695386392}
+  - {fileID: 3591305982778199240}
   cachedNodes:
-  - {fileID: 0}
-  - {fileID: 102459097599615741}
-  - {fileID: -6949349549968741559}
-  - {fileID: -7015850201138653823}
---- !u!114 &102459097599615741
+  - {fileID: 1004318380770229093}
+  - {fileID: 3075678387847047246}
+  - {fileID: -6510591855695386392}
+  - {fileID: 3591305982778199240}
+--- !u!114 &1004318380770229093
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -92,8 +68,32 @@ MonoBehaviour:
   fieldNames: []
   connections: []
   rasaState: 0
-  data: This is a test. And another test.
---- !u!114 &1225230912614895157
+  data: Hi there. How are you doing?
+--- !u!114 &3075678387847047246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43d578f3b29e15b42b63dc3eba2640f1, type: 3}
+  m_Name: Log Node
+  m_EditorClassIdentifier: 
+  guid: 547fe81952d143446a07597a872a13e8
+  position: {x: 608, y: 103}
+  fieldNames:
+  - object
+  connections:
+  - rasaNodes:
+    - {fileID: -6510591855695386392}
+    fieldNames:
+    - selection
+  rasaState: 0
+  parentNode: {fileID: -6510591855695386392}
+  childNode: {fileID: 0}
+--- !u!114 &3591305982778199240
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -111,15 +111,15 @@ MonoBehaviour:
   - data
   connections:
   - rasaNodes:
-    - {fileID: 102459097599615741}
+    - {fileID: 1004318380770229093}
     fieldNames:
     - data
-  rasaState: 0
+  rasaState: 2
   parentNode: {fileID: 7694194898056224208}
-  childNode: {fileID: -7015850201138653823}
+  childNode: {fileID: -6510591855695386392}
   array:
-  - 'This is a test. '
-  - And another test.
+  - 'Hi there. '
+  - How are you doing?
 --- !u!114 &7694194898056224208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,4 +138,4 @@ MonoBehaviour:
   connections: []
   rasaState: 2
   parentNode: {fileID: 0}
-  childNode: {fileID: 1225230912614895157}
+  childNode: {fileID: 3591305982778199240}

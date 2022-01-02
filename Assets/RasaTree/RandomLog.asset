@@ -1,6 +1,30 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-7223404260954913775
+--- !u!114 &-7536568075818227964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43d578f3b29e15b42b63dc3eba2640f1, type: 3}
+  m_Name: Log Node
+  m_EditorClassIdentifier: 
+  guid: cde4daa5562ab50499fdfc3f508b1728
+  position: {x: 462, y: 103}
+  fieldNames:
+  - object
+  connections:
+  - rasaNodes:
+    - {fileID: 1166900180439553000}
+    fieldNames:
+    - selection
+  rasaState: 2
+  parentNode: {fileID: 1166900180439553000}
+  childNode: {fileID: 0}
+--- !u!114 &-6984771295087428042
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -12,12 +36,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 922f96d7985e0374a8510e2e72af3ad4, type: 3}
   m_Name: String Node
   m_EditorClassIdentifier: 
-  guid: 04b8cceb28356ba4ea52b390d1acddcf
-  position: {x: 15, y: 127}
+  guid: 405125ef763342f4aa8de1da7dadce9c
+  position: {x: 15, y: 204}
   fieldNames: []
   connections: []
   rasaState: 0
-  data: String 1
+  data: String 2
 --- !u!114 &-5696002087645246286
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36,36 +60,8 @@ MonoBehaviour:
   connections: []
   rasaState: 2
   parentNode: {fileID: 0}
-  childNode: {fileID: 285345316379673218}
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bdad2048e30ed124b98aca91ba621937, type: 3}
-  m_Name: RandomLog
-  m_EditorClassIdentifier: 
-  sampleIntents: []
-  propertyNames: []
-  inputDataNodes: []
-  rootNode: {fileID: -5696002087645246286}
-  rasaNodes:
-  - {fileID: 7937270480844746578}
-  - {fileID: 285345316379673218}
-  - {fileID: -7223404260954913775}
-  - {fileID: 3922515123355805230}
-  - {fileID: 5888846745105490502}
-  cachedNodes:
-  - {fileID: 7937270480844746578}
-  - {fileID: 285345316379673218}
-  - {fileID: -7223404260954913775}
-  - {fileID: 3922515123355805230}
-  - {fileID: 5888846745105490502}
---- !u!114 &285345316379673218
+  childNode: {fileID: -152454304681095916}
+--- !u!114 &-152454304681095916
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -83,18 +79,18 @@ MonoBehaviour:
   - data
   connections:
   - rasaNodes:
-    - {fileID: -7223404260954913775}
-    - {fileID: 3922515123355805230}
+    - {fileID: 4493489529857144717}
+    - {fileID: -6984771295087428042}
     fieldNames:
     - data
     - data
   rasaState: 2
   parentNode: {fileID: -5696002087645246286}
-  childNode: {fileID: 7937270480844746578}
+  childNode: {fileID: 1166900180439553000}
   array:
   - String 1
   - String 2
---- !u!114 &3922515123355805230
+--- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -103,40 +99,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 922f96d7985e0374a8510e2e72af3ad4, type: 3}
-  m_Name: String Node
+  m_Script: {fileID: 11500000, guid: bdad2048e30ed124b98aca91ba621937, type: 3}
+  m_Name: RandomLog
   m_EditorClassIdentifier: 
-  guid: 405125ef763342f4aa8de1da7dadce9c
-  position: {x: 15, y: 204}
-  fieldNames: []
-  connections: []
-  rasaState: 0
-  data: String 2
---- !u!114 &5888846745105490502
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43d578f3b29e15b42b63dc3eba2640f1, type: 3}
-  m_Name: Log Node
-  m_EditorClassIdentifier: 
-  guid: cde4daa5562ab50499fdfc3f508b1728
-  position: {x: 462, y: 103}
-  fieldNames:
-  - object
-  connections:
-  - rasaNodes:
-    - {fileID: 7937270480844746578}
-    fieldNames:
-    - selection
-  rasaState: 2
-  parentNode: {fileID: 7937270480844746578}
-  childNode: {fileID: 0}
---- !u!114 &7937270480844746578
+  sampleIntents: []
+  propertyNames: []
+  inputDataNodes: []
+  rootNode: {fileID: -5696002087645246286}
+  rasaNodes:
+  - {fileID: 1166900180439553000}
+  - {fileID: -152454304681095916}
+  - {fileID: 4493489529857144717}
+  - {fileID: -6984771295087428042}
+  - {fileID: -7536568075818227964}
+  cachedNodes:
+  - {fileID: 1166900180439553000}
+  - {fileID: -152454304681095916}
+  - {fileID: 4493489529857144717}
+  - {fileID: -6984771295087428042}
+  - {fileID: -7536568075818227964}
+--- !u!114 &1166900180439553000
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -154,10 +136,28 @@ MonoBehaviour:
   - array
   connections:
   - rasaNodes:
-    - {fileID: 285345316379673218}
+    - {fileID: -152454304681095916}
     fieldNames:
     - array
   rasaState: 2
-  parentNode: {fileID: 285345316379673218}
-  childNode: {fileID: 5888846745105490502}
+  parentNode: {fileID: -152454304681095916}
+  childNode: {fileID: -7536568075818227964}
   selection: String 1
+--- !u!114 &4493489529857144717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 922f96d7985e0374a8510e2e72af3ad4, type: 3}
+  m_Name: String Node
+  m_EditorClassIdentifier: 
+  guid: 04b8cceb28356ba4ea52b390d1acddcf
+  position: {x: 15, y: 127}
+  fieldNames: []
+  connections: []
+  rasaState: 0
+  data: String 1

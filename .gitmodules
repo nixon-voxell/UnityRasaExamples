@@ -1,12 +1,12 @@
 [submodule "Packages/UnityUtil"]
-	path = Packages/UnityUtil
+	path = Packages/voxell.util
 	url = https://github.com/voxell-tech/UnityUtil.git
 [submodule "Packages/UnityNLP"]
-	path = Packages/UnityNLP
+	path = Packages/voxell.nlp
 	url = https://github.com/voxell-tech/UnityNLP.git
 [submodule "Packages/UnityAI"]
-	path = Packages/UnityAI
+	path = Packages/voxell.ai
 	url = https://github.com/voxell-tech/UnityAI.git
 [submodule "Packages/UnityRasa"]
-	path = Packages/UnityRasa
+	path = Packages/voxell.rasa
 	url = https://github.com/voxell-tech/UnityRasa.git
